@@ -74,7 +74,7 @@ while read -r commits_n commits_date; do
   (( commits_n > commits_max )) && commits_max=$commits_n
   date_diff=$(( ($(_date --date="${commits_date} 13:00 UTC" "+%s") - since) / (60*60*24) ))
   commits_per_day["${date_diff}"]=$commits_n
-done <<< $(git log --since="${since}" --date=short --pretty=format:'%ad' --author="$(git config --get user.name)"  | uniq -c)
+done <<< "$(git log --since="${since}" --date=short --pretty=format:'%ad' --author="$(git config --get user.name)"  | uniq -c)"
 
 # Print name of months
 current_month=$(_date "+%b")
@@ -118,7 +118,7 @@ for day_n in $(seq 0 6); do
       fi
     elif [ $key -lt $last_day ]; then
       # No activity
-      printf "\u001b[38;5;250m%s%s" "$char_void" "$space"
+      printf "\x1b[38;5;250m%s%s" "$char_void" "$space"
     fi
   done
   printf "\n"
@@ -127,7 +127,7 @@ printf "\n"
 
 # Print legend
 printf "\e[m Less "
-printf "\u001b[38;5;250m%s " "$char_void"
+printf "\x1b[38;5;250m%s " "$char_void"
 printf "\x1b[38;5;22m%s " "$char_full"
 printf "\x1b[38;5;28m%s " "$char_full"
 printf "\x1b[38;5;34m%s " "$char_full"
